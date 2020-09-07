@@ -1,0 +1,6 @@
+name: captureTheFlag
+version: 1.0
+main: main.Main
+commands:
+    info:
+        description: Test Daten.
