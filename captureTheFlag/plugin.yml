@@ -1,6 +1,7 @@
 name: captureTheFlag
 version: 1.0
-main: main.Main
+main: captureTheFlag.main.Main
 commands:
-    info:
-        description: Test Daten.
+    CTF:
+        description: CTF Befehle
+        aliases: ctf
