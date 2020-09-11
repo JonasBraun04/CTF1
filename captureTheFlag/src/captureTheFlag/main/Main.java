@@ -10,14 +10,18 @@ import captureTheFlag.events.EntityDamageListener;
 import captureTheFlag.events.EntityExplodeListener;
 import captureTheFlag.events.PlayerJoinListener;
 import captureTheFlag.events.PlayerMoveListener;
+import captureTheFlag.utils.CtfGame;
 
 public class Main extends JavaPlugin {
 	
 	public static final String PREFIX = "§7[§cCTF§7] §r";
 	public static final String BLUE = "§9";
 	public static final String RED = "§c";
+	public CtfGame game = new CtfGame();
 	public boolean blueFlag = true;
 	public boolean redFlag = true;
+	
+	//TODO: SetFlag renew, load config new, resetFlag new, getFlag renew, spawnFlag new,
 	
 	@Override
 	public void onEnable() {

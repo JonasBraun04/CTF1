@@ -14,6 +14,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 import captureTheFlag.main.Main;
+import captureTheFlag.utils.FlagPoint;
 import captureTheFlag.utils.TeamColor;
 
 public class SetFlagCommand {
@@ -23,9 +24,8 @@ public class SetFlagCommand {
 		this.plugin = plugin;
 	}
 	
-	public void executeSetFlagCommand(CommandSender sender, Command command, String label, String[] args, String color, Player player) {
-		FileConfiguration config = plugin.getConfig();
-		if(config.getString("CTF.flag."+color+".World") != null) {
+	public void executeSetFlagCommand(CommandSender sender, Command command, String label, String[] args, TeamColor color, Player player) {
+		/*if(config.getString("CTF.flag."+color+".World") != null) {
 			World world = Bukkit.getWorld(config.getString("CTF.flag."+color+".World"));
 			double x = config.getDouble("CTF.flag."+color+".X");
 			double y = config.getDouble("CTF.flag."+color+".Y");
@@ -44,13 +44,18 @@ public class SetFlagCommand {
 		else
 			flag.setCustomName("§cFlag");
 		flag.setCustomNameVisible(true);
-		flag.setGlowing(true);
-			
-		config.set("CTF.flag."+color+".World", location.getWorld().getName());
-		config.set("CTF.flag."+color+".X", location.getX());
-		config.set("CTF.flag."+color+".Y", location.getY());
-		config.set("CTF.flag."+color+".Z", location.getZ());
-		config.set("CTF.flag."+color+".ID", flag.getUniqueId().toString());
+		flag.setGlowing(true);*/
+		
+		Location location = player.getLocation();
+		plugin.game.addFlagPoint(new FlagPoint(color, location));
+		
+		FileConfiguration config = plugin.getConfig();
+		config.set("CTF.flag.amount", plugin.game.getFlagPoints().size());
+		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".Team", color.toString());
+		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".World", location.getWorld().getName());
+		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".X", location.getX());
+		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".Y", location.getY());
+		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".Z", location.getZ());
 		plugin.saveConfig();
 	}
 }
