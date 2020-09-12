@@ -1,7 +1,6 @@
 package captureTheFlag.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 import org.bukkit.entity.Player;
@@ -56,4 +55,7 @@ public class CtfGame {
 		flagPoints.get(index).setUUID(uuid);
 	}
 	
+	public void clearUUID(int index) {
+		flagPoints.get(index).setUUID(null);
+	}
 }

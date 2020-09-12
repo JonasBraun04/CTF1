@@ -2,7 +2,6 @@ package captureTheFlag.commands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 
 import captureTheFlag.main.Main;
 import captureTheFlag.utils.FlagPoint;
@@ -22,13 +21,8 @@ public class RemoveFlagPointCommand {
 		config.set("CTF.flag.amount", config.getInt("CTF.flag.amount")-1);
 		plugin.saveConfig();
 		
-		if(flagPoint.getUUID()!=null) {
-			for(Entity e: flagPoint.getLocation().getWorld().getChunkAt(flagPoint.getLocation()).getEntities()) {
-				if(e.getUniqueId().equals(flagPoint.getUUID())) {
-					e.remove();
-					break;
-				}
-			}
+		if(flagPoint.hasFlag()) {
+			RemoveFlagCommand.executeRemoveFlagCommand(flagPoint.getLocation(), flagPoint.getUUID());
 		}
 	}
 }

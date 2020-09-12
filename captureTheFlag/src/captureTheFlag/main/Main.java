@@ -70,7 +70,7 @@ public class Main extends JavaPlugin {
 				double y = config.getDouble("CTF.flag."+i+".Y");
 				double z = config.getDouble("CTF.flag."+i+".Z");
 				Location location = new Location(world, x, y, z);
-				this.game.addFlagPoint(new FlagPoint(color, location));	
+				this.game.addFlagPoint(new FlagPoint(color, location, game.getFlagPoints().size()));	
 			}
 			System.out.println(PREFIX + config.getString("CTF.flag.amount")+" FlagPoints wurden geladen.");
 		} catch(Exception e) {

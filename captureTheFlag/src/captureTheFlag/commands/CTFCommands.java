@@ -13,16 +13,15 @@ public class CTFCommands implements CommandExecutor {
 	
 	private SetFlagPointCommand setFlagCommand;
 	private SetSpawnPointCommand setSpawnCommand;
-	private SpawnFlagCommand spawnFlagCommand;
 	private JoinTeamCommand joinTeamCommand;
 	private RemoveFlagPointCommand removeFlagPointCommand;
+	
 	
 	
 	public CTFCommands(Main plugin) {
 		this.plugin = plugin;
 		setFlagCommand = new SetFlagPointCommand(plugin);
 		setSpawnCommand = new SetSpawnPointCommand(plugin);
-		spawnFlagCommand = new SpawnFlagCommand(plugin);
 		joinTeamCommand = new JoinTeamCommand(plugin);
 		removeFlagPointCommand = new RemoveFlagPointCommand(plugin);
 	}
@@ -119,7 +118,7 @@ public class CTFCommands implements CommandExecutor {
 					try {
 						int index = Integer.parseInt(args[1]);
 						if(plugin.game.getFlagPoints().size()>=index && index>0) {
-							spawnFlagCommand.executeSpawnFlagCommand(index);
+							SpawnFlagCommand.executeSpawnFlagCommand(plugin, plugin.game.getFlagPoints().get(index-1));
 							sender.sendMessage(Main.PREFIX + "Du hast erfolgreich eine Flag auf dem "+index+"ten FlagPoint erzeugt."); return(true);
 						} else {
 							sender.sendMessage(Main.PREFIX + "Bitte wähle einen der "+plugin.game.getFlagPoints().size()+" vorhanden FlagPoints aus."); return(false);
@@ -130,6 +129,21 @@ public class CTFCommands implements CommandExecutor {
 				} else
 				sender.sendMessage(Main.PREFIX + "Bitte nutze /CTF spawnFlag [index]"); return(false);
 			//empty Command
+			} else if(args[0].equalsIgnoreCase("removeFlag")) {
+				if(args.length==2) {
+					try {
+						int index = Integer.parseInt(args[1]);
+						if(plugin.game.getFlagPoints().size()>=index && index>0) {
+							RemoveFlagCommand.executeRemoveFlagCommand(plugin.game.getFlagPoints().get(index-1).getLocation(), plugin.game.getFlagPoints().get(index-1).getUUID());
+							sender.sendMessage(Main.PREFIX + "Du hast erfolgreich die Flag auf dem "+index+"ten FlagPoint entfernt."); return(true);
+						} else {
+							sender.sendMessage(Main.PREFIX + "Bitte wähle einen der "+plugin.game.getFlagPoints().size()+" vorhanden FlagPoints aus."); return(false);
+						}
+					} catch(Exception e) {
+						sender.sendMessage(Main.PREFIX + "Bitte nutze /CTF removeFlag [index]"); return(false);
+					}
+				} else
+				sender.sendMessage(Main.PREFIX + "Bitte nutze /CTF removeFlag [index]"); return(false);
 			} else if(args[0].equalsIgnoreCase("")) {
 				if(args.length==2) {
 					//TODO

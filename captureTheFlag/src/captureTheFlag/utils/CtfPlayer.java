@@ -1,11 +1,15 @@
 package captureTheFlag.utils;
 
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 
 public class CtfPlayer {
 	private Player player;
 	private TeamColor teamColor;
 	private boolean flag;
+	
+	private HashMap<FlagPoint, Boolean> atFlagPoint = new HashMap<FlagPoint, Boolean>();
 	
 	public CtfPlayer(Player player, TeamColor teamColor) {
 		this.player = player;
@@ -30,5 +34,13 @@ public class CtfPlayer {
 	
 	public void setFlag(boolean flag) {
 		this.flag = flag;
+	}
+	
+	public boolean isAtFlagPoint(FlagPoint flagPoint) {
+		return(atFlagPoint.get(flagPoint));
+	}
+	
+	public void setAtFlagPoint(FlagPoint flagPoint, boolean value) {
+		atFlagPoint.put(flagPoint, value);
 	}
 }

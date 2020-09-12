@@ -11,9 +11,10 @@ public class FlagPoint {
 	private Location location;
 	private UUID flag;
 	
-	public FlagPoint(TeamColor team, Location location) {
+	public FlagPoint(TeamColor team, Location location, int index) {
 		this.team = team;
 		this.location = location;
+		this.index = index;
 	}
 	
 	public Location getLocation() {
@@ -30,5 +31,17 @@ public class FlagPoint {
 	
 	public UUID getUUID() {
 		return(flag);
+	}
+	
+	public boolean hasFlag() {
+		if(flag!=null) {
+			return(true);
+		} else {
+			return(false);
+		}
+	}
+	
+	public int getIndex() {
+		return(index);
 	}
 }

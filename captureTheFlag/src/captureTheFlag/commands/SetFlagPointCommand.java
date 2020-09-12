@@ -47,7 +47,7 @@ public class SetFlagPointCommand {
 		flag.setGlowing(true);*/
 		
 		Location location = player.getLocation();
-		plugin.game.addFlagPoint(new FlagPoint(color, location));
+		plugin.game.addFlagPoint(new FlagPoint(color, location, plugin.game.getFlagPoints().size()));
 		
 		FileConfiguration config = plugin.getConfig();
 		config.set("CTF.flag.amount", plugin.game.getFlagPoints().size());
