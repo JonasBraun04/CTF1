@@ -17,10 +17,10 @@ import captureTheFlag.main.Main;
 import captureTheFlag.utils.FlagPoint;
 import captureTheFlag.utils.TeamColor;
 
-public class SetFlagCommand {
+public class SetFlagPointCommand {
 	private Main plugin;
 	
-	public SetFlagCommand(Main plugin) {
+	public SetFlagPointCommand(Main plugin) {
 		this.plugin = plugin;
 	}
 	

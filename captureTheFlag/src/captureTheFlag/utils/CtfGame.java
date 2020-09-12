@@ -48,4 +48,12 @@ public class CtfGame {
 		flagPoints.add(flagPoint);
 	}
 	
+	public void removeFlagPoint(FlagPoint flagPoint) {
+		flagPoints.remove(flagPoint);
+	}
+	
+	public void setUUID(int index, UUID uuid) {
+		flagPoints.get(index).setUUID(uuid);
+	}
+	
 }
