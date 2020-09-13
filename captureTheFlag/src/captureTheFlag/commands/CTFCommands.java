@@ -11,18 +11,23 @@ import captureTheFlag.utils.TeamColor;
 public class CTFCommands implements CommandExecutor {
 	private Main plugin;
 	
-	private SetFlagPointCommand setFlagCommand;
-	private SetSpawnPointCommand setSpawnCommand;
+	private SetFlagPointCommand setFlagPointCommand;
+	private SetSpawnPointCommand setSpawnPointCommand;
+	private SetSpawnCommand setSpawnCommand;
+	private SelectTeamCommand selectTeamCommand;
+	private SpawnCommand spawnCommand;
 	private JoinTeamCommand joinTeamCommand;
 	private RemoveFlagPointCommand removeFlagPointCommand;
 	private GetKitCommand getKitCommand;
 	
 	
-	
 	public CTFCommands(Main plugin) {
 		this.plugin = plugin;
-		setFlagCommand = new SetFlagPointCommand(plugin);
-		setSpawnCommand = new SetSpawnPointCommand(plugin);
+		setFlagPointCommand = new SetFlagPointCommand(plugin);
+		setSpawnPointCommand = new SetSpawnPointCommand(plugin);
+		setSpawnCommand = new SetSpawnCommand(plugin);
+		selectTeamCommand = new SelectTeamCommand();
+		spawnCommand = new SpawnCommand(plugin);
 		joinTeamCommand = new JoinTeamCommand(plugin);
 		removeFlagPointCommand = new RemoveFlagPointCommand(plugin);
 		getKitCommand = new GetKitCommand(plugin);
@@ -41,7 +46,7 @@ public class CTFCommands implements CommandExecutor {
 						if(args.length==2) {
 							try {
 								TeamColor color = TeamColor.valueOf(args[1].toUpperCase());
-								setFlagCommand.executeSetFlagCommand(sender, command, label, args, color, player);
+								setFlagPointCommand.executeSetFlagPointCommand(sender, command, label, args, color, player);
 								player.sendMessage(Main.PREFIX + "Du hast erfolgreich den FlagPoint für Team " + color.getColorCode() + " gesetzt!" ); return(true);
 							} catch(Exception e) {
 								player.sendMessage(Main.PREFIX + "Bitte nutze /CTF setFlagPoint §9blue§r/§cred§r"); return(false);
@@ -53,13 +58,20 @@ public class CTFCommands implements CommandExecutor {
 						if(args.length==2) {
 							try {
 								TeamColor color = TeamColor.valueOf(args[1].toUpperCase());
-								setSpawnCommand.executeSetSpawnCommand(sender, command, label, args, color, player);
+								setSpawnPointCommand.executeSetSpawnPointCommand(sender, command, label, args, color, player);
 								player.sendMessage(Main.PREFIX + "Du hast erfolgreich den SpawnPoint für Team " + color.getColorCode() + "§r gesetzt!" ); return(true);
 							} catch(Exception e) {
 								player.sendMessage(Main.PREFIX + "Bitte nutze /CTF setSpawnPoint §9blue§r/§cred§r"); return(false);
 							}
 						} else
 							player.sendMessage(Main.PREFIX + "Bitte nutze /CTF setSpawnPoint [color]"); return(false);
+					//setSpawn Command
+					} else if(args[0].equalsIgnoreCase("setSpawn")) {
+						if(args.length==1) {
+							setSpawnCommand.executeSetSpawnCommand(player);
+							player.sendMessage(Main.PREFIX + "Du hast erfolgreich den Spawn gesetzt.");
+						} else
+							player.sendMessage(Main.PREFIX + "Bitte nutze /CTF setSpawn"); return(false);
 					//empty Command
 					} else if(args[0].equalsIgnoreCase("")) {
 						if(args.length==2) {
@@ -92,6 +104,19 @@ public class CTFCommands implements CommandExecutor {
 						}
 					} else
 						player.sendMessage(Main.PREFIX + "Bitte nutze /CTF getKit"); return(false);
+				//spawn Command
+				} else if(args[0].equalsIgnoreCase("spawn")) {
+					if(args.length==1) {
+						spawnCommand.executeSpawnCommand(player);
+					} else
+						player.sendMessage(Main.PREFIX + "Bitte nutze /CTF spawn"); return(false);
+				//selectTeam Command
+				} else if(args[0].equalsIgnoreCase("selectTeam")) {
+					if(args.length==1) {
+						selectTeamCommand.executeSelectTeamCommand(player);
+						player.sendMessage(Main.DEBUGPREFIX + "Bitte wähle dein Team aus."); return(true);
+					} else
+						player.sendMessage(Main.PREFIX + "Bitte nutze /CTF selectTeam"); return(false);
 				//empty Command
 				} else if(args[0].equalsIgnoreCase("")) {
 					if(args.length==2) {
@@ -141,7 +166,7 @@ public class CTFCommands implements CommandExecutor {
 					}
 				} else
 				sender.sendMessage(Main.PREFIX + "Bitte nutze /CTF spawnFlag [index]"); return(false);
-			//empty Command
+			//removeFlag Command
 			} else if(args[0].equalsIgnoreCase("removeFlag")) {
 				if(args.length==2) {
 					try {
@@ -157,6 +182,7 @@ public class CTFCommands implements CommandExecutor {
 					}
 				} else
 				sender.sendMessage(Main.PREFIX + "Bitte nutze /CTF removeFlag [index]"); return(false);
+			//empty Command
 			} else if(args[0].equalsIgnoreCase("")) {
 				if(args.length==2) {
 					//TODO

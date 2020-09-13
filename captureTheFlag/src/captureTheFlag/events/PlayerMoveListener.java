@@ -1,7 +1,6 @@
 package captureTheFlag.events;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -34,7 +33,6 @@ public class PlayerMoveListener implements Listener {
 	}
 	
 	public void handleEvent(FlagPoint flagPoint, CtfPlayer player, PlayerMoveEvent event) {
-		FileConfiguration config = plugin.getConfig();
 		double x = flagPoint.getLocation().getX()-event.getTo().getX();
 		double y = flagPoint.getLocation().getY()-event.getTo().getY();
 		double z = flagPoint.getLocation().getZ()-event.getTo().getZ();
@@ -45,7 +43,6 @@ public class PlayerMoveListener implements Listener {
 		if(z<0)
 			z=-z;
 		if(x<1 && y<2 && z<1) {
-			System.out.println("test1");
 			//Player take flag
 			if(flagPoint.hasFlag() && !player.hasFlag() && !player.isAtFlagPoint(flagPoint)) {
 				player.setFlag(true);
@@ -59,7 +56,7 @@ public class PlayerMoveListener implements Listener {
 				player.setFlag(false);
 				player.setAtFlagPoint(flagPoint, true);
 				SpawnFlagCommand.executeSpawnFlagCommand(flagPoint);
-				player.getPlayer().getPassenger().remove();
+				player.getPlayer().getPassengers().removeAll(player.getPlayer().getPassengers());
 				checkForWin(TeamColor.BLUE);
 				checkForWin(TeamColor.RED);
 			}
@@ -75,7 +72,7 @@ public class PlayerMoveListener implements Listener {
 			}
 		}
 		plugin.clearArena();
-		Bukkit.broadcastMessage(plugin.PREFIX+"Team "+color.getColorCode()+" hat das Spiel gewonnen!!!");
+		Bukkit.broadcastMessage(Main.PREFIX+"Team "+color.getColorCode()+" hat das Spiel gewonnen!!!");
 	}
 
 }

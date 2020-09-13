@@ -21,13 +21,13 @@ public class PlayerItemConsumeListener implements Listener {
 		if(plugin.game.searchForPlayer(player)) {
 			event.setCancelled(true);
 			if(!event.getItem().getType().equals(Material.COOKIE)) {
-				player.sendMessage(plugin.PREFIX+"Du kannst nur UlTIMATE COOKIES essen!");
+				player.sendMessage(Main.PREFIX+"Du kannst nur UlTIMATE COOKIES essen!");
 			} else {
 				player.setFoodLevel(20);
 			}
 		} else if(!player.isOp()) {
 			event.setCancelled(true);
-			player.sendMessage(plugin.PREFIX+"Du kannst keine Nahrung zu dir nehmen.");
+			player.sendMessage(Main.PREFIX+"Du kannst keine Nahrung zu dir nehmen.");
 		}
 	}
 	

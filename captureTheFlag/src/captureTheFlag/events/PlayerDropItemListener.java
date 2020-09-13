@@ -8,10 +8,8 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import captureTheFlag.main.Main;
 
 public class PlayerDropItemListener implements Listener {
-	private Main plugin;
 	
-	public PlayerDropItemListener(Main plugin) {
-		this.plugin = plugin;
+	public PlayerDropItemListener() {
 	}
 	
 	@EventHandler
@@ -19,7 +17,7 @@ public class PlayerDropItemListener implements Listener {
 		Player player = event.getPlayer();
 		if(!player.isOp()) {
 			event.setCancelled(true);
-			player.sendMessage(plugin.PREFIX+"Du kannst deine Items nicht auf den Boden schmeiﬂen!");
+			player.sendMessage(Main.PREFIX+"Du kannst deine Items nicht auf den Boden schmeiﬂen!");
 		}
 	}
 	

@@ -22,14 +22,16 @@ private Main plugin;
 		Block block = event.getBlock();
 		if(plugin.game.searchForPlayer(player)) {
 			if(block.getType().equals(Material.BLUE_WOOL) || block.getType().equals(Material.RED_WOOL)) {
-				player.getItemInHand().setAmount(64);
+				player.getInventory().getItemInMainHand().setAmount(64);
 			} else {
 				event.setCancelled(true);
-				player.sendMessage(plugin.PREFIX+"Du kannst nur Wolle platzieren.");
+				player.sendMessage(Main.PREFIX+"Du kannst nur Wolle platzieren.");
 			}
 		} else if(!player.isOp()) {
 			event.setCancelled(true);
-			player.sendMessage(plugin.PREFIX+"Du hast nicht die nötige Berechtigung um Blöcke zu platzieren.");
+			player.sendMessage(Main.PREFIX+"Du hast nicht die nötige Berechtigung um Blöcke zu platzieren.");
+		} else if(block.getType().equals(Material.BEACON)) {
+			event.setCancelled(true);
 		}
 	}
 }

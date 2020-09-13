@@ -2,16 +2,29 @@ package captureTheFlag.utils;
 	
 
 public enum TeamColor {
-	BLUE("§9Blau§r"),
-	RED("§cRot§r");
+	BLUE("§9Blau§r", "blue", "§9"),
+	RED("§cRot§r", "red", "§c");
 	
-	private String color;
+	private String displayColor;
+	private String debugColor;
+	private String colorCode;
 	
-	private TeamColor(String color) {
-		this.color = color;
+	private TeamColor(String displayColor, String debugColor, String colorCode) {
+		this.displayColor = displayColor;
+		this.debugColor = debugColor;
+		this.colorCode = colorCode;
 	}
 	
+	public String getDisplayColor() {
+		return(displayColor);
+	}
+	
+	public String getDebugColor() {
+		return(debugColor);
+	}
+	
+	
 	public String getColorCode() {
-		return(color);
+		return(colorCode);
 	}
 }

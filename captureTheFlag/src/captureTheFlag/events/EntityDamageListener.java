@@ -28,7 +28,7 @@ public class EntityDamageListener implements Listener {
 					event.setCancelled(true);
 					player.setHealth(20);
 					player.setFoodLevel(20);
-					player.sendMessage(plugin.PREFIX+"Du bist gestorben!");
+					player.sendMessage(Main.PREFIX+"Du bist gestorben!");
 				}
 			}
 		}

@@ -36,6 +36,11 @@ public class ItemBuilder {
 		return this;
 	}
 	
+	public ItemBuilder setBreakable(boolean value) {
+		itemMeta.setUnbreakable(!value);
+		return this;
+	}
+	
 	public ItemStack build() {
 		item.setItemMeta(itemMeta);
 		return item;

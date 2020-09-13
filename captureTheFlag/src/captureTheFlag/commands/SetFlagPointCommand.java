@@ -17,7 +17,7 @@ public class SetFlagPointCommand {
 		this.plugin = plugin;
 	}
 	
-	public void executeSetFlagCommand(CommandSender sender, Command command, String label, String[] args, TeamColor color, Player player) {
+	public void executeSetFlagPointCommand(CommandSender sender, Command command, String label, String[] args, TeamColor color, Player player) {
 		Location location = player.getLocation();
 		plugin.game.addFlagPoint(new FlagPoint(color, location, plugin.game.getFlagPoints().size()));
 		

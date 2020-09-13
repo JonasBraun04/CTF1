@@ -16,6 +16,7 @@ public class CtfGame {
 	
 	private Location spawnPointBlue;
 	private Location spawnPointRed;
+	private Location spawn;
 	
 	public CtfGame() {
 		
@@ -87,5 +88,13 @@ public class CtfGame {
 		default:
 			return(null);
 		}
+	}
+	
+	public void setSpawn(Location location) {
+		spawn = location;
+	}
+	
+	public Location getSpawn() {
+		return(spawn);
 	}
 }
