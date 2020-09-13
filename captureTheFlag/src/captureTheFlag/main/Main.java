@@ -47,7 +47,7 @@ public class Main extends JavaPlugin {
 	
 	@Override
 	public void onDisable() {
-		clearArena();
+		//clearArena();
 		saveConfig();
 		
 		Bukkit.broadcastMessage(PREFIX + "Disabled");

@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
+import captureTheFlag.commands.EndGameCommand;
 import captureTheFlag.commands.RemoveFlagCommand;
 import captureTheFlag.commands.SpawnFlagCommand;
 import captureTheFlag.main.Main;
@@ -17,9 +18,11 @@ import captureTheFlag.utils.TeamColor;
 
 public class PlayerMoveListener implements Listener {
 	private Main plugin;
+	private EndGameCommand endGameCommand;
 	
 	public PlayerMoveListener(Main plugin) {
 		this.plugin = plugin;
+		endGameCommand = new EndGameCommand(plugin);
 	}
 	
 	@EventHandler
@@ -56,7 +59,9 @@ public class PlayerMoveListener implements Listener {
 				player.setFlag(false);
 				player.setAtFlagPoint(flagPoint, true);
 				SpawnFlagCommand.executeSpawnFlagCommand(flagPoint);
-				player.getPlayer().getPassengers().removeAll(player.getPlayer().getPassengers());
+				for(int i = 0; i<player.getPlayer().getPassengers().size(); i++) {
+					player.getPlayer().getPassengers().get(i).remove();
+				}
 				checkForWin(TeamColor.BLUE);
 				checkForWin(TeamColor.RED);
 			}
@@ -71,8 +76,8 @@ public class PlayerMoveListener implements Listener {
 				return;
 			}
 		}
-		plugin.clearArena();
 		Bukkit.broadcastMessage(Main.PREFIX+"Team "+color.getColorCode()+" hat das Spiel gewonnen!!!");
+		endGameCommand.executeEndGameCommand();
 	}
 
 }

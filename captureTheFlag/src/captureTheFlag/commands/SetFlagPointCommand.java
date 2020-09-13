@@ -26,7 +26,7 @@ public class SetFlagPointCommand {
 		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".Team", color.toString());
 		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".World", location.getWorld().getName());
 		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".X", location.getX());
-		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".Y", location.getY());
+		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".Y", location.getY()+1);
 		config.set("CTF.flag."+Integer.toString(plugin.game.getFlagPoints().size())+".Z", location.getZ());
 		plugin.saveConfig();
 	}

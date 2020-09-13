@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 public class CtfGame {
 	
 	private ArrayList<CtfPlayer> players = new ArrayList<CtfPlayer>();
-	private ArrayList<CtfPlayer> teamBlue = new ArrayList<CtfPlayer>();
-	private ArrayList<CtfPlayer> teamRed = new ArrayList<CtfPlayer>();
 	
 	private ArrayList<FlagPoint> flagPoints = new ArrayList<FlagPoint>();
 	
@@ -26,6 +24,10 @@ public class CtfGame {
 	
 	public void addPlayer(CtfPlayer player) {
 		players.add(player);
+	}
+	
+	public void clearPlayer() {
+		players.clear();
 	}
 	
 	public boolean searchForPlayer(Player player) {

@@ -11,6 +11,7 @@ import captureTheFlag.utils.TeamColor;
 public class CTFCommands implements CommandExecutor {
 	private Main plugin;
 	
+	private EndGameCommand endGameCommand;
 	private SetFlagPointCommand setFlagPointCommand;
 	private SetSpawnPointCommand setSpawnPointCommand;
 	private SetSpawnCommand setSpawnCommand;
@@ -19,10 +20,12 @@ public class CTFCommands implements CommandExecutor {
 	private JoinTeamCommand joinTeamCommand;
 	private RemoveFlagPointCommand removeFlagPointCommand;
 	private GetKitCommand getKitCommand;
+	private StartGameCommand startGameCommand;
 	
 	
 	public CTFCommands(Main plugin) {
 		this.plugin = plugin;
+		endGameCommand = new EndGameCommand(plugin);
 		setFlagPointCommand = new SetFlagPointCommand(plugin);
 		setSpawnPointCommand = new SetSpawnPointCommand(plugin);
 		setSpawnCommand = new SetSpawnCommand(plugin);
@@ -31,6 +34,7 @@ public class CTFCommands implements CommandExecutor {
 		joinTeamCommand = new JoinTeamCommand(plugin);
 		removeFlagPointCommand = new RemoveFlagPointCommand(plugin);
 		getKitCommand = new GetKitCommand(plugin);
+		startGameCommand = new StartGameCommand(plugin);
 	}
 
 	@Override
@@ -72,6 +76,20 @@ public class CTFCommands implements CommandExecutor {
 							player.sendMessage(Main.PREFIX + "Du hast erfolgreich den Spawn gesetzt.");
 						} else
 							player.sendMessage(Main.PREFIX + "Bitte nutze /CTF setSpawn"); return(false);
+					//startGame Command
+					} else if(args[0].equalsIgnoreCase("startGame")) {
+						if(args.length==1) {
+							startGameCommand.executeStartGameCommand();
+							player.sendMessage(Main.PREFIX + "Du hast erfolgreich das Game gestartet."); return(true);
+						} else
+							player.sendMessage(Main.PREFIX + "Bitte nutze /CTF startGame"); return(false);
+					//endGame Command
+					} else if(args[0].equalsIgnoreCase("endGame")) {
+						if(args.length==1) {
+							endGameCommand.executeEndGameCommand();
+							player.sendMessage(Main.PREFIX + "Du hast erfolgreich das Game beendet."); return(true);
+						} else
+							player.sendMessage(Main.PREFIX + "Bitte nutze /CTF endGame"); return(false);
 					//empty Command
 					} else if(args[0].equalsIgnoreCase("")) {
 						if(args.length==2) {
