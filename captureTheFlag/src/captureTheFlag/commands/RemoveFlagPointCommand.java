@@ -22,7 +22,7 @@ public class RemoveFlagPointCommand {
 		plugin.saveConfig();
 		
 		if(flagPoint.hasFlag()) {
-			RemoveFlagCommand.executeRemoveFlagCommand(flagPoint.getLocation(), flagPoint.getUUID());
+			RemoveFlagCommand.executeRemoveFlagCommand(flagPoint);
 		}
 	}
 }

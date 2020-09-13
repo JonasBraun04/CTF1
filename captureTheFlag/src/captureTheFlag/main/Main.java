@@ -8,11 +8,19 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import captureTheFlag.commands.CTFCommands;
+import captureTheFlag.commands.RemoveFlagCommand;
+import captureTheFlag.events.BlockBreakListener;
+import captureTheFlag.events.BlockPlaceListener;
 import captureTheFlag.events.EntityDamageByEntityListener;
 import captureTheFlag.events.EntityDamageListener;
 import captureTheFlag.events.EntityExplodeListener;
+import captureTheFlag.events.EntityShootBowListener;
+import captureTheFlag.events.PlayerDropItemListener;
+import captureTheFlag.events.PlayerItemBreakListener;
+import captureTheFlag.events.PlayerItemConsumeListener;
 import captureTheFlag.events.PlayerJoinListener;
 import captureTheFlag.events.PlayerMoveListener;
+import captureTheFlag.events.PlayerPickupItemListener;
 import captureTheFlag.utils.CtfGame;
 import captureTheFlag.utils.FlagPoint;
 import captureTheFlag.utils.TeamColor;
@@ -38,7 +46,8 @@ public class Main extends JavaPlugin {
 	}
 	
 	@Override
-	public void onDisable() {	
+	public void onDisable() {
+		clearArena();
 		saveConfig();
 		
 		Bukkit.broadcastMessage(PREFIX + "Disabled");
@@ -55,10 +64,18 @@ public class Main extends JavaPlugin {
 	}
 	
 	public void initListeners(PluginManager pluginManager) {
+		pluginManager.registerEvents(new BlockBreakListener(this), this);
+		pluginManager.registerEvents(new BlockPlaceListener(this), this);
+		pluginManager.registerEvents(new EntityDamageByEntityListener(this), this);
+		pluginManager.registerEvents(new EntityDamageListener(this), this);
+		pluginManager.registerEvents(new EntityExplodeListener(), this);
+		pluginManager.registerEvents(new EntityShootBowListener(this), this);
+		pluginManager.registerEvents(new PlayerDropItemListener(this), this);
+		pluginManager.registerEvents(new PlayerItemBreakListener(this), this);
+		pluginManager.registerEvents(new PlayerItemConsumeListener(this), this);
 		pluginManager.registerEvents(new PlayerJoinListener(), this);
-		pluginManager.registerEvents(new EntityDamageListener(), this);
-		pluginManager.registerEvents(new EntityDamageByEntityListener(), this);
 		pluginManager.registerEvents(new PlayerMoveListener(this), this);
+		pluginManager.registerEvents(new PlayerPickupItemListener(this), this);
 	}
 	
 	public void loadFlagPoints(FileConfiguration config) {
@@ -87,9 +104,18 @@ public class Main extends JavaPlugin {
 			float yaw = Float.parseFloat(config.getString("CTF.spawn."+color.toString()+".Yaw"));
 			float pitch = Float.parseFloat(config.getString("CTF.spawn."+color.toString()+".Pitch"));
 			Location location = new Location(world, x, y, z, yaw, pitch);
+			game.setSpawnPoint(color, location);
 			System.out.println(PREFIX + "SpawnPoint für Team "+color.getColorCode()+" wurden geladen.");
 		} catch (Exception e) {
 			System.out.println(PREFIX + "Achtung! Es ist kein SpawnPoint für Team "+color.getColorCode()+" gesetzt!");
+		}
+	}
+	
+	public void clearArena() {
+		for(int i=0; i<game.getFlagPoints().size(); i++) {
+			if(game.getFlagPoints().get(i).hasFlag()) {
+				RemoveFlagCommand.executeRemoveFlagCommand(game.getFlagPoints().get(i));
+			}
 		}
 	}
 }

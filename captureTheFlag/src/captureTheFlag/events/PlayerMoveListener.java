@@ -1,5 +1,6 @@
 package captureTheFlag.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -13,6 +14,7 @@ import captureTheFlag.commands.SpawnFlagCommand;
 import captureTheFlag.main.Main;
 import captureTheFlag.utils.CtfPlayer;
 import captureTheFlag.utils.FlagPoint;
+import captureTheFlag.utils.TeamColor;
 
 public class PlayerMoveListener implements Listener {
 	private Main plugin;
@@ -43,12 +45,12 @@ public class PlayerMoveListener implements Listener {
 		if(z<0)
 			z=-z;
 		if(x<1 && y<2 && z<1) {
+			System.out.println("test1");
 			//Player take flag
 			if(flagPoint.hasFlag() && !player.hasFlag() && !player.isAtFlagPoint(flagPoint)) {
 				player.setFlag(true);
 				player.setAtFlagPoint(flagPoint, true);
-				RemoveFlagCommand.executeRemoveFlagCommand(flagPoint.getLocation(), flagPoint.getUUID());
-				flagPoint.setUUID(null);
+				RemoveFlagCommand.executeRemoveFlagCommand(flagPoint);
 				Entity flag = player.getPlayer().getWorld().spawnEntity(event.getTo(), EntityType.ENDER_CRYSTAL);
 				flag.setGlowing(true);
 				player.getPlayer().addPassenger(flag);
@@ -56,12 +58,24 @@ public class PlayerMoveListener implements Listener {
 			} else if(!flagPoint.hasFlag() && player.hasFlag() && !player.isAtFlagPoint(flagPoint)) {
 				player.setFlag(false);
 				player.setAtFlagPoint(flagPoint, true);
-				SpawnFlagCommand.executeSpawnFlagCommand(plugin, flagPoint);
+				SpawnFlagCommand.executeSpawnFlagCommand(flagPoint);
 				player.getPlayer().getPassenger().remove();
+				checkForWin(TeamColor.BLUE);
+				checkForWin(TeamColor.RED);
 			}
 		} else {
 			player.setAtFlagPoint(flagPoint, false);
 		}
+	}
+	
+	public void checkForWin(TeamColor color) {
+		for(int i=0; i<plugin.game.getFlagPoints().size(); i++) {
+			if(plugin.game.getFlagPoints().get(i).getTeamColor().equals(color) && !plugin.game.getFlagPoints().get(i).hasFlag()) {
+				return;
+			}
+		}
+		plugin.clearArena();
+		Bukkit.broadcastMessage(plugin.PREFIX+"Team "+color.getColorCode()+" hat das Spiel gewonnen!!!");
 	}
 
 }

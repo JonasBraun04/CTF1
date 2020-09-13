@@ -15,6 +15,7 @@ public class CTFCommands implements CommandExecutor {
 	private SetSpawnPointCommand setSpawnCommand;
 	private JoinTeamCommand joinTeamCommand;
 	private RemoveFlagPointCommand removeFlagPointCommand;
+	private GetKitCommand getKitCommand;
 	
 	
 	
@@ -24,6 +25,7 @@ public class CTFCommands implements CommandExecutor {
 		setSpawnCommand = new SetSpawnPointCommand(plugin);
 		joinTeamCommand = new JoinTeamCommand(plugin);
 		removeFlagPointCommand = new RemoveFlagPointCommand(plugin);
+		getKitCommand = new GetKitCommand(plugin);
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public class CTFCommands implements CommandExecutor {
 					}
 				//Normal Player Commands
 				}
-				//empty Command
+				//joinTeam Command
 				if(args[0].equalsIgnoreCase("joinTeam")) {
 					if(args.length==2) {
 						try {
@@ -78,7 +80,18 @@ public class CTFCommands implements CommandExecutor {
 							player.sendMessage(Main.PREFIX + "Bitte nutze /CTF joinTeam [color]"); return(false);
 						}
 					} else
-						player.sendMessage(Main.PREFIX + "Bitte nutze /CTF empty"); return(false);
+						player.sendMessage(Main.PREFIX + "Bitte nutze /CTF [color]"); return(false);
+				//getKit Command
+				} else if(args[0].equalsIgnoreCase("getKit")) {
+					if(args.length==1) {
+						if(plugin.game.searchForPlayer(player)) {
+							getKitCommand.executeGetKitCommand(player);
+							player.sendMessage("Du hast dein CTF-Kit erhalten!"); return(true);
+						} else {
+							player.sendMessage(Main.PREFIX + "Nur CTF-Spieler können diesen Befehl nutzen. Nutze /CTF joinTeam um einem Team deiner wahl beizutreten."); return(false);
+						}
+					} else
+						player.sendMessage(Main.PREFIX + "Bitte nutze /CTF getKit"); return(false);
 				//empty Command
 				} else if(args[0].equalsIgnoreCase("")) {
 					if(args.length==2) {
@@ -118,7 +131,7 @@ public class CTFCommands implements CommandExecutor {
 					try {
 						int index = Integer.parseInt(args[1]);
 						if(plugin.game.getFlagPoints().size()>=index && index>0) {
-							SpawnFlagCommand.executeSpawnFlagCommand(plugin, plugin.game.getFlagPoints().get(index-1));
+							SpawnFlagCommand.executeSpawnFlagCommand(plugin.game.getFlagPoints().get(index-1));
 							sender.sendMessage(Main.PREFIX + "Du hast erfolgreich eine Flag auf dem "+index+"ten FlagPoint erzeugt."); return(true);
 						} else {
 							sender.sendMessage(Main.PREFIX + "Bitte wähle einen der "+plugin.game.getFlagPoints().size()+" vorhanden FlagPoints aus."); return(false);
@@ -134,7 +147,7 @@ public class CTFCommands implements CommandExecutor {
 					try {
 						int index = Integer.parseInt(args[1]);
 						if(plugin.game.getFlagPoints().size()>=index && index>0) {
-							RemoveFlagCommand.executeRemoveFlagCommand(plugin.game.getFlagPoints().get(index-1).getLocation(), plugin.game.getFlagPoints().get(index-1).getUUID());
+							RemoveFlagCommand.executeRemoveFlagCommand(plugin.game.getFlagPoints().get(index-1));
 							sender.sendMessage(Main.PREFIX + "Du hast erfolgreich die Flag auf dem "+index+"ten FlagPoint entfernt."); return(true);
 						} else {
 							sender.sendMessage(Main.PREFIX + "Bitte wähle einen der "+plugin.game.getFlagPoints().size()+" vorhanden FlagPoints aus."); return(false);

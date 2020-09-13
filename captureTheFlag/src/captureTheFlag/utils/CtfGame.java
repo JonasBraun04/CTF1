@@ -3,6 +3,7 @@ package captureTheFlag.utils;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class CtfGame {
@@ -13,9 +14,14 @@ public class CtfGame {
 	
 	private ArrayList<FlagPoint> flagPoints = new ArrayList<FlagPoint>();
 	
+	private Location spawnPointBlue;
+	private Location spawnPointRed;
+	
 	public CtfGame() {
 		
 	}
+	
+	
 	
 	public void addPlayer(CtfPlayer player) {
 		players.add(player);
@@ -39,6 +45,10 @@ public class CtfGame {
 		return(null);
 	}
 	
+	public ArrayList<CtfPlayer> getCtfPlayers() {
+		return(players);
+	}
+	
 	public ArrayList<FlagPoint> getFlagPoints() {
 		return(flagPoints);
 	}
@@ -57,5 +67,25 @@ public class CtfGame {
 	
 	public void clearUUID(int index) {
 		flagPoints.get(index).setUUID(null);
+	}
+	
+	public void setSpawnPoint(TeamColor color, Location location) {
+		switch(color) {
+		case BLUE:
+			spawnPointBlue = location;
+		case RED:
+			spawnPointRed = location;
+		}
+	}
+	
+	public Location getSpawnPoint(TeamColor color) {
+		switch(color) {
+		case BLUE:
+			return(spawnPointBlue);
+		case RED:
+			return(spawnPointRed);
+		default:
+			return(null);
+		}
 	}
 }

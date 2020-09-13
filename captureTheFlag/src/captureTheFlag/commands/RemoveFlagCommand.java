@@ -1,21 +1,24 @@
 package captureTheFlag.commands;
 
-import java.util.UUID;
-
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+
+import captureTheFlag.utils.FlagPoint;
 
 public class RemoveFlagCommand {
 	
 	public RemoveFlagCommand() {
 	}
 	
-	public static void executeRemoveFlagCommand(Location location, UUID uuid) {
-		for(Entity e: location.getWorld().getChunkAt(location).getEntities()) {
-			if(e.getUniqueId().equals(uuid)) {
-				e.remove();
+	public static void executeRemoveFlagCommand(FlagPoint flagPoint) {
+		try {
+			for(Entity e: flagPoint.getLocation().getWorld().getChunkAt(flagPoint.getLocation()).getEntities()) {
+				if(e.getUniqueId().equals(flagPoint.getUUID())) {
+					e.remove();
 				return;
+				}
 			}
+		} finally {
+			flagPoint.clearUUID();
 		}
 	}
 }

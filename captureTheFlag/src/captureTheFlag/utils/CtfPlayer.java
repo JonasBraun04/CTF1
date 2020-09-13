@@ -4,16 +4,21 @@ import java.util.HashMap;
 
 import org.bukkit.entity.Player;
 
+import captureTheFlag.commands.GetKitCommand;
+import captureTheFlag.main.Main;
+
 public class CtfPlayer {
 	private Player player;
 	private TeamColor teamColor;
 	private boolean flag;
+	private Main plugin;
 	
 	private HashMap<FlagPoint, Boolean> atFlagPoint = new HashMap<FlagPoint, Boolean>();
 	
-	public CtfPlayer(Player player, TeamColor teamColor) {
+	public CtfPlayer(Main plugin, Player player, TeamColor teamColor) {
 		this.player = player;
 		this.teamColor = teamColor;
+		this.plugin = plugin;
 	}
 	
 	public TeamColor getTeamColor() {
@@ -43,4 +48,10 @@ public class CtfPlayer {
 	public void setAtFlagPoint(FlagPoint flagPoint, boolean value) {
 		atFlagPoint.put(flagPoint, value);
 	}
+	
+	public void getKit() {
+		GetKitCommand getKitCommand = new GetKitCommand(plugin);
+		getKitCommand.executeGetKitCommand(player);
+	}
+	
 }
